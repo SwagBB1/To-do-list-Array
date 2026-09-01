@@ -22,7 +22,17 @@ int main() {
         switch (choice) {
             case 1:
                 cout << "You selected: Add a New Task" << endl;
+
+                ofstream of;
+                fstream f;
+                of.open("tasks.txt", ios::app);
+                if (!of){
+                cout << "No such file found";
+                break;}
+                else {
+                cout << "Please enter a task with _ as the space"<< endl;
                 
+                }
                 break;
 
             case 2:
