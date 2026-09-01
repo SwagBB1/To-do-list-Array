@@ -20,20 +20,24 @@ int main() {
         cin >> choice;
 
         switch (choice) {
-            case 1:
+            case 1: {
                 cout << "You selected: Add a New Task" << endl;
 
-                ofstream of;
-                fstream f;
-                of.open("tasks.txt", ios::app);
-                if (!of){
-                cout << "No such file found";
-                break;}
-                else {
-                cout << "Please enter a task with _ as the space"<< endl;
-                
-                }
+                ofstream of("tasks.txt", ios::app);
+
+                if (!of) {
+                    cout << "Unable to open tasks.txt" << endl;
                 break;
+                }
+                string task;
+                cout << "Please enter a task with _ as the space:" << endl;
+                cin >> task;
+                of << task << " incomplete" << endl;
+                cout << "Task added successfully!" << endl;
+                of.close();
+                break;
+            }        
+
 
             case 2:
                 cout << "You selected: Complete a Task" << endl;
