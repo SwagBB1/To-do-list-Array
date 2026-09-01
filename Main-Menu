@@ -27,7 +27,8 @@ int main() {
 
                 if (!of) {
                     cout << "Unable to open tasks.txt" << endl;
-                break;
+                    cout << "Please insert tasks.txt file and run the program again << endl;
+                return 0
                 }
                 string task;
                 cout << "Please enter a task with _ as the space:" << endl;
@@ -39,10 +40,10 @@ int main() {
             }        
 
 
-            case 2:
+            case 2:{
                 cout << "You selected: Complete a Task" << endl;
-                break;
-
+                
+            }
             case 3:
                 cout << "You selected: Display All Tasks" << endl;
                 break;
