@@ -27,7 +27,7 @@ int main() {
 
                 if (!of) {
                     cout << "Unable to open tasks.txt" << endl;
-                    cout << "Please insert tasks.txt file and run the program again << endl;
+                    cout << "Please insert tasks.txt file and run the program again" << endl;
                 return 0
                 }
                 string task;
