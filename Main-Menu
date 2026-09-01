@@ -1,1 +1,19 @@
+// Building a layout
 
+// #include <>
+
+#include <iostream>
+using namespace std;
+
+int main() {
+
+    cout << "Welcome to the Main Menu" << endl;
+    cout << "Please press the following associated number to the task you wish to do:" << endl;
+    cout << "Press 1 to Add a New Task" << endl;
+    cout << "Press 2 to Complete a Task" << endl;
+    cout << "Press 3 to Display All Tasks" << endl;
+    cout << "Press 4 to Remove a Task" << endl;
+    cout << "Press 5 to Modify a Task" << endl;
+    cout << "Press 0 to Exit Program" << endl;
+
+}
