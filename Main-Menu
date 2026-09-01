@@ -42,7 +42,7 @@ int main() {
 
             case 2:{
                 cout << "You selected: Complete a Task" << endl;
-                
+                break;
             }
             case 3:
                 cout << "You selected: Display All Tasks" << endl;
