@@ -16,4 +16,32 @@ int main() {
     cout << "Press 5 to Modify a Task" << endl;
     cout << "Press 0 to Exit Program" << endl;
 
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            cout << "You selected: Add a New Task" << endl;
+            
+            break;
+        case 2:
+            cout << "You selected: Complete a Task" << endl;
+            break;
+        case 3:
+            cout << "You selected: Display All Tasks" << endl;
+            break;
+        case 4:
+            cout << "You selected: Remove a Task" << endl;
+            break;
+        case 5:
+            cout << "You selected: Modify a Task" << endl;
+            break;
+        case 0:
+            cout << "Exiting Program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice. Please enter a number from 0 to 5." << endl;
+            break;
+    }
+
+    return 0;
 }
