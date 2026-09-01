@@ -1,46 +1,54 @@
-// Building a layout
-
-// #include <>
-
 #include <iostream>
+#include <fstream>
+#include <string>
+//#include <>
+
 using namespace std;
-
 int main() {
+    int choice;
+// What the user see in the main menu
 
-    cout << "Welcome to the Main Menu" << endl;
-    cout << "Please press the following associated number to the task you wish to do:" << endl;
-    cout << "Press 1 to Add a New Task" << endl;
-    cout << "Press 2 to Complete a Task" << endl;
-    cout << "Press 3 to Display All Tasks" << endl;
-    cout << "Press 4 to Remove a Task" << endl;
-    cout << "Press 5 to Modify a Task" << endl;
-    cout << "Press 0 to Exit Program" << endl;
+    while (true) {
+        cout << "\nWelcome to the Main Menu" << endl;
+        cout << "Please press the following associated number to the task you wish to do:" << endl;
+        cout << "Press 1 to Add a New Task" << endl;
+        cout << "Press 2 to Complete a Task" << endl;
+        cout << "Press 3 to Display All Tasks" << endl;
+        cout << "Press 4 to Remove a Task" << endl;
+        cout << "Press 5 to Modify a Task" << endl;
+        cout << "Press 0 to Exit Program" << endl;
+        cin >> choice;
 
-    cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "You selected: Add a New Task" << endl;
+                
+                break;
 
-    switch (choice) {
-        case 1:
-            cout << "You selected: Add a New Task" << endl;
-            
-            break;
-        case 2:
-            cout << "You selected: Complete a Task" << endl;
-            break;
-        case 3:
-            cout << "You selected: Display All Tasks" << endl;
-            break;
-        case 4:
-            cout << "You selected: Remove a Task" << endl;
-            break;
-        case 5:
-            cout << "You selected: Modify a Task" << endl;
-            break;
-        case 0:
-            cout << "Exiting Program..." << endl;
-            break;
-        default:
-            cout << "Invalid choice. Please enter a number from 0 to 5." << endl;
-            break;
+            case 2:
+                cout << "You selected: Complete a Task" << endl;
+                break;
+
+            case 3:
+                cout << "You selected: Display All Tasks" << endl;
+                break;
+
+            case 4:
+                cout << "You selected: Remove a Task" << endl;
+                break;
+
+            case 5:
+                cout << "You selected: Modify a Task" << endl;
+                break;
+
+            case 0:
+                cout << "Exiting Program..." << endl;
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please enter a number from 0 to 5." << endl;
+                break;
+        }
     }
 
     return 0;
