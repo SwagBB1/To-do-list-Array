@@ -22,7 +22,7 @@ int main() {
 
     // Main menu
     while (true) {
-        cout << "\nWelcome to the Main Menu" << endl;
+        cout << "                       Welcome to the Main Menu" << endl;
         cout << "Please press the following associated number to the task you wish to do:" << endl;
         cout << "Press 1 to Add a New Task" << endl;
         cout << "Press 2 to Complete a Task" << endl;
@@ -41,22 +41,22 @@ int main() {
                 break;
 
             case 2:
-                cout << "\nYou selected: Complete a Task" << endl;
+                cout << "                You Picked: Complete a Task" << endl;
                 completeTask(tasknames, iscompleted, taskCount);
                 break;
 
             case 3:
-                cout << "\nYou selected: Display All Tasks" << endl;
+                cout << "                You picked: Display All Tasks" << endl;
                 displayTasks(tasknames, iscompleted, taskCount);
                 break;
 
             case 4:
-                cout << "\nYou selected: Remove a Task" << endl;
+                cout << "             You Picked: Remove a Task" << endl;
                 removeTask(tasknames, iscompleted, taskCount);
                 break;
 
             case 5:
-                cout << "\nYou selected: Modify a Task" << endl;
+                cout << "             You Picked: Modify a Task" << endl;
                 modifyTask(tasknames, iscompleted, taskCount);
                 break;
 
@@ -65,7 +65,7 @@ int main() {
                 return 0;
 
             default:
-                cout << "Invalid choice. Please enter a number from 0 to 5." << endl;
+                cout << "Invalid choice. Please use a number from 0 to 5." << endl;
                 break;
         }
     }
@@ -74,9 +74,6 @@ int main() {
 }
 
 
-// --------------------------------------------------
-// Add a new task
-// --------------------------------------------------
 void addTask(string tasknames[], bool iscompleted[], int& taskCount) {
 
     if (taskCount >= max_tasks) {
@@ -95,9 +92,6 @@ void addTask(string tasknames[], bool iscompleted[], int& taskCount) {
 }
 
 
-// --------------------------------------------------
-// Complete a task
-// --------------------------------------------------
 void completeTask(string tasknames[], bool iscompleted[], int taskCount) {
 
     if (taskCount == 0) {
@@ -122,9 +116,6 @@ void completeTask(string tasknames[], bool iscompleted[], int taskCount) {
 }
 
 
-// --------------------------------------------------
-// Display all tasks
-// --------------------------------------------------
 void displayTasks(string tasknames[], bool iscompleted[], int taskCount) {
 
     if (taskCount == 0) {
@@ -153,10 +144,6 @@ void displayTasks(string tasknames[], bool iscompleted[], int taskCount) {
     cout << "---------------------" << endl;
 }
 
-
-// --------------------------------------------------
-// Remove a task
-// --------------------------------------------------
 void removeTask(string tasknames[], bool iscompleted[], int& taskCount) {
 
     if (taskCount == 0) {
@@ -187,9 +174,6 @@ void removeTask(string tasknames[], bool iscompleted[], int& taskCount) {
 }
 
 
-// --------------------------------------------------
-// Modify a task
-// --------------------------------------------------
 void modifyTask(string tasknames[], bool iscompleted[], int taskCount) {
 
     if (taskCount == 0) {
