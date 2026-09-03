@@ -1,15 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+//#include <>
 using namespace std;
 
 const int max_tasks = 20;
+//List of the functions
 
-// Function declarations
 void loadTasks(string tasknames[], bool iscompleted[], int& taskCount);
 void saveTasks(string tasknames[], bool iscompleted[], int taskCount);
-
 void addTask(string tasknames[], bool iscompleted[], int& taskCount);
 void completeTask(string tasknames[], bool iscompleted[], int taskCount);
 void displayTasks(string tasknames[], bool iscompleted[], int taskCount);
@@ -22,13 +21,12 @@ int main() {
 
     string tasknames[max_tasks];
     bool iscompleted[max_tasks];
-
-    // Load tasks from task.txt when the program starts
+// Louds the task to be faster
     loadTasks(tasknames, iscompleted, taskCount);
 
     // Main menu
     while (true) {
-        cout << "\n                       Welcome to the Main Menu" << endl;
+        cout << "                       Welcome to the Main Menu" << endl;
         cout << "Please press the following associated number to the task you wish to do:" << endl;
         cout << "Press 1 to Add a New Task" << endl;
         cout << "Press 2 to Complete a Task" << endl;
@@ -42,17 +40,17 @@ int main() {
         switch (choice) {
 
             case 1:
-                cout << "\nYou selected: Add a New Task" << endl;
+                cout << "You Picked: Add a New Task" << endl;
                 addTask(tasknames, iscompleted, taskCount);
                 break;
 
             case 2:
-                cout << "\nYou Picked: Complete a Task" << endl;
+                cout << "You Picked: Complete a Task" << endl;
                 completeTask(tasknames, iscompleted, taskCount);
                 break;
 
             case 3:
-                cout << "\nYou picked: Display All Tasks" << endl;
+                cout << "You Picked: Display All Tasks" << endl;
                 displayTasks(tasknames, iscompleted, taskCount);
                 break;
 
@@ -62,7 +60,7 @@ int main() {
                 break;
 
             case 5:
-                cout << "\nYou Picked: Modify a Task" << endl;
+                cout << "You Picked: Modify a Task" << endl;
                 modifyTask(tasknames, iscompleted, taskCount);
                 break;
 
@@ -81,9 +79,8 @@ int main() {
 }
 
 
-// ---------------------------------------------------------
-// LOAD TASKS FROM FILE
-// ---------------------------------------------------------
+//All the functions that are being used when called
+
 void loadTasks(string tasknames[], bool iscompleted[], int& taskCount) {
 
     ifstream inputFile("task.txt");
@@ -116,9 +113,6 @@ void loadTasks(string tasknames[], bool iscompleted[], int& taskCount) {
 }
 
 
-// ---------------------------------------------------------
-// SAVE TASKS TO FILE
-// ---------------------------------------------------------
 void saveTasks(string tasknames[], bool iscompleted[], int taskCount) {
 
     ofstream outputFile("task.txt");
@@ -145,10 +139,8 @@ void saveTasks(string tasknames[], bool iscompleted[], int taskCount) {
     outputFile.close();
 }
 
+// Case 1 function for adding a task on the to-do-list
 
-// ---------------------------------------------------------
-// ADD TASK
-// ---------------------------------------------------------
 void addTask(string tasknames[], bool iscompleted[], int& taskCount) {
 
     if (taskCount >= max_tasks) {
@@ -158,21 +150,14 @@ void addTask(string tasknames[], bool iscompleted[], int& taskCount) {
 
     cout << "Please enter a task with _ as the space: ";
     cin >> tasknames[taskCount];
-
     iscompleted[taskCount] = false;
-
     taskCount++;
-
-    // Save immediately after adding
     saveTasks(tasknames, iscompleted, taskCount);
-
     cout << "Task added successfully!" << endl;
 }
 
 
-// ---------------------------------------------------------
-// COMPLETE TASK
-// ---------------------------------------------------------
+// Case 2 checking the task you have completed
 void completeTask(string tasknames[], bool iscompleted[], int taskCount) {
 
     if (taskCount == 0) {
@@ -181,44 +166,31 @@ void completeTask(string tasknames[], bool iscompleted[], int taskCount) {
     }
 
     displayTasks(tasknames, iscompleted, taskCount);
-
     int taskNumber;
-
     cout << "Enter the number of the task you want to complete: ";
     cin >> taskNumber;
-
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
     }
-
     iscompleted[taskNumber - 1] = true;
-
-    // Save immediately after completing
     saveTasks(tasknames, iscompleted, taskCount);
-
     cout << "Task completed successfully!" << endl;
 }
 
+//Case 3 Displays the task
 
-// ---------------------------------------------------------
-// DISPLAY TASKS
-// ---------------------------------------------------------
 void displayTasks(string tasknames[], bool iscompleted[], int taskCount) {
 
     if (taskCount == 0) {
         cout << "There are no tasks." << endl;
         return;
     }
-
-    cout << "\n----- All Tasks -----" << endl;
-
+    cout << "           All Tasks          " << endl;
     for (int i = 0; i < taskCount; i++) {
-
         cout << i + 1 << ". "
              << tasknames[i]
              << " - ";
-
         if (iscompleted[i]) {
             cout << "Complete";
         }
@@ -229,13 +201,10 @@ void displayTasks(string tasknames[], bool iscompleted[], int taskCount) {
         cout << endl;
     }
 
-    cout << "---------------------" << endl;
+    cout << endl;
 }
+// Case 4 Remove a task
 
-
-// ---------------------------------------------------------
-// REMOVE TASK
-// ---------------------------------------------------------
 void removeTask(string tasknames[], bool iscompleted[], int& taskCount) {
 
     if (taskCount == 0) {
@@ -244,36 +213,24 @@ void removeTask(string tasknames[], bool iscompleted[], int& taskCount) {
     }
 
     displayTasks(tasknames, iscompleted, taskCount);
-
     int taskNumber;
-
     cout << "Enter the number of the task you want to remove: ";
     cin >> taskNumber;
-
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
     }
-
-    // Shift all tasks after the removed task to the left
     for (int i = taskNumber - 1; i < taskCount - 1; i++) {
-
         tasknames[i] = tasknames[i + 1];
         iscompleted[i] = iscompleted[i + 1];
     }
 
     taskCount--;
-
-    // Save immediately after removing
     saveTasks(tasknames, iscompleted, taskCount);
-
     cout << "Task removed successfully!" << endl;
 }
 
-
-// ---------------------------------------------------------
-// MODIFY TASK
-// ---------------------------------------------------------
+//Case 5 Modify a task 
 void modifyTask(string tasknames[], bool iscompleted[], int taskCount) {
 
     if (taskCount == 0) {
@@ -282,12 +239,10 @@ void modifyTask(string tasknames[], bool iscompleted[], int taskCount) {
     }
 
     displayTasks(tasknames, iscompleted, taskCount);
-
     int taskNumber;
 
     cout << "Enter the number of the task you want to modify: ";
     cin >> taskNumber;
-
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
@@ -295,9 +250,6 @@ void modifyTask(string tasknames[], bool iscompleted[], int taskCount) {
 
     cout << "Enter the new task with _ as the space: ";
     cin >> tasknames[taskNumber - 1];
-
-    // Save immediately after modifying
     saveTasks(tasknames, iscompleted, taskCount);
-
     cout << "Task modified successfully!" << endl;
 }
