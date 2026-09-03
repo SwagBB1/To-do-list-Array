@@ -1,3 +1,9 @@
+//Did use Ai to help reformat and find bugs in the void savetask. 
+//If file cant be read rename tasks.txt to task.txt or open file tasks.txt and each row add a number
+// from 1 - however many 
+//example do_homework incomplete 1
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -24,7 +30,6 @@ int main() {
 // Louds the task to be faster
     loadTasks(tasknames, iscompleted, taskCount);
 
-    // Main menu
     while (true) {
         cout << "                       Welcome to the Main Menu" << endl;
         cout << "Please press the following associated number to the task you wish to do:" << endl;
