@@ -1,7 +1,5 @@
-// Did use AI to help reformat and find bugs in the void saveTasks.
-// Tasks are stored in task.txt.
-// Example:
-// do_homework incomplete
+//Updated Menu
+// Fixed taks.txt file as well as made things dynamic 
 
 #include <iostream>
 #include <fstream>
@@ -24,10 +22,8 @@ int main() {
     int choice;
     int taskCount = 0;
 
-    // Dynamically allocate the task-name array
     string* tasknames = new string[max_tasks];
 
-    // Dynamically allocate the completion-status array
     bool* iscompleted = new bool[max_tasks];
 
     // Load the tasks from the file
@@ -76,14 +72,11 @@ int main() {
 
             case 0:
 
-                // Save tasks before exiting
                 saveTasks(tasknames, iscompleted, taskCount);
 
-                // Delete dynamically allocated arrays
                 delete[] tasknames;
                 delete[] iscompleted;
 
-                // Set pointers to nullptr after deleting
                 tasknames = nullptr;
                 iscompleted = nullptr;
 
@@ -101,7 +94,7 @@ int main() {
 }
 
 
-// Loads the initial tasks from task.txt
+// Loads the tasks from task.txt
 void loadTasks(string* tasknames, bool* iscompleted, int& taskCount) {
 
     ifstream inputFile("task.txt");
@@ -198,7 +191,6 @@ void completeTask(string* tasknames, bool* iscompleted, int taskCount) {
     cout << "Enter the number of the task you want to complete: ";
     cin >> taskNumber;
 
-    // Validate task number before accessing the array
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
@@ -258,13 +250,11 @@ void removeTask(string* tasknames, bool* iscompleted, int& taskCount) {
     cout << "Enter the number of the task you want to remove: ";
     cin >> taskNumber;
 
-    // Validate task number
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
     }
 
-    // Move all tasks after the removed task one position to the left
     for (int i = taskNumber - 1; i < taskCount - 1; i++) {
 
         tasknames[i] = tasknames[i + 1];
@@ -294,7 +284,6 @@ void modifyTask(string* tasknames, bool* iscompleted, int taskCount) {
     cout << "Enter the number of the task you want to modify: ";
     cin >> taskNumber;
 
-    // Validate task number
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
