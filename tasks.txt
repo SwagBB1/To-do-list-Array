@@ -1,8 +1,8 @@
-Learn_Basic_Python incomplete
-Impletment_a_snake_game incomplete
-Clean_up_my_room incomplete
-Build_my_resume incomplete
-Study_for_the_exam incomplete
-Learn_how_to_juggle incomplete
-Create_a_website_using_React incomplete
-Have_a_tea_and_self-reflect incomplete 
+Learn_Basic_Python incomplete 1
+Impletment_a_snake_game incomplete 2
+Clean_up_my_room incomplete 3
+Build_my_resume incomplete 4
+Study_for_the_exam incomplete 5
+Learn_how_to_juggle incomplete 6 
+Create_a_website_using_React incomplete 7
+Have_a_tea_and_self-reflect incomplete 8
