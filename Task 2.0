@@ -1,0 +1,22 @@
+Read the initial tasks from tasks.txt.
+Use a menu inside a loop.
+Accept user input.
+Use if/else or switch to process the menu choice.
+Use function prototypes.
+Use function calls.
+Use complete function definitions.
+Use pointers.
+Dynamically allocate the task-name array.
+Dynamically allocate the completion-status array.
+Use new[].
+Use delete[].
+Use nullptr after deleting the arrays.
+Keep track of the current number of tasks using taskCount.
+Correctly implement View Task.
+Correctly implement Add Task.
+Correctly implement Complete Task.
+Correctly implement Remove Task.
+Correctly implement Modify Task.
+Validate task numbers before accessing an array.
+Keep the two arrays synchronized.
+Use only dynamically allocated arrays for storing the task list
