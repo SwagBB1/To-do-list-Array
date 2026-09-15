@@ -1,0 +1,332 @@
+//Updated Menu
+// Fixed taks.txt file as well as made things dynamic 
+
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int capacity = 10;
+
+// Function prototypes
+void expandArray(string*& tasknames, bool*& iscompleted, int& capacity);
+void loadTasks(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity);
+void saveTasks(string* tasknames, bool* iscompleted, int taskCount);
+void addTask(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity);
+void completeTask(string* tasknames, bool* iscompleted, int taskCount);
+void displayTasks(string* tasknames, bool* iscompleted, int taskCount);
+void removeTask(string* tasknames, bool* iscompleted, int& taskCount);
+void modifyTask(string* tasknames, bool* iscompleted, int taskCount);
+
+int main() {
+
+    int choice;
+    int taskCount = 0;
+
+    string* tasknames = new string[capacity];
+
+    bool* iscompleted = new bool[capacity];
+
+    // Load the tasks from the file
+    loadTasks(tasknames, iscompleted, taskCount, capacity);
+
+    while (true) {
+
+        cout << endl;
+        cout << "                       Welcome to the Main Menu" << endl;
+        cout << "Please press the following associated number to the task you wish to do:" << endl;
+        cout << "Press 1 to Add a New Task" << endl;
+        cout << "Press 2 to Complete a Task" << endl;
+        cout << "Press 3 to Display All Tasks" << endl;
+        cout << "Press 4 to Remove a Task" << endl;
+        cout << "Press 5 to Modify a Task" << endl;
+        cout << "Press 0 to Exit Program" << endl;
+        cout << "Choice: ";
+        cin >> choice;
+
+        switch (choice) {
+
+            case 1:
+                cout << "You Picked: Add a New Task" << endl;
+                addTask(tasknames, iscompleted, taskCount, capacity);
+                break;
+
+            case 2:
+                cout << "You Picked: Complete a Task" << endl;
+                completeTask(tasknames, iscompleted, taskCount);
+                break;
+
+            case 3:
+                cout << "You Picked: Display All Tasks" << endl;
+                displayTasks(tasknames, iscompleted, taskCount);
+                break;
+
+            case 4:
+                cout << "You Picked: Remove a Task" << endl;
+                removeTask(tasknames, iscompleted, taskCount);
+                break;
+
+            case 5:
+                cout << "You Picked: Modify a Task" << endl;
+                modifyTask(tasknames, iscompleted, taskCount);
+                break;
+
+            case 0:
+
+                saveTasks(tasknames, iscompleted, taskCount);
+
+                delete[] tasknames;
+                delete[] iscompleted;
+
+                tasknames = nullptr;
+                iscompleted = nullptr;
+
+                cout << "Tasks have been saved. Goodbye!" << endl;
+
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please use a number from 0 to 5." << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
+
+
+// Loads the tasks from task.txt
+void loadTasks(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity) {
+
+    ifstream inputFile("task.txt");
+
+    if (!inputFile) {
+        cout << "Could not open task.txt. Starting with an empty task list." << endl;
+        return;
+    }
+
+    string task;
+    string status;
+
+    while (inputFile >> task >> status) {
+
+        if (taskCount >= capacity) {
+            expandArray(tasknames, iscompleted, capacity);
+        }
+
+        tasknames[taskCount] = task;
+
+        if (status == "complete") {
+            iscompleted[taskCount] = true;
+        }
+        else {
+            iscompleted[taskCount] = false;
+        }
+
+        taskCount++;
+    }
+
+    inputFile.close();
+
+    cout << taskCount << " task(s) loaded from task.txt." << endl;
+}
+
+
+// Saves all tasks to task.txt
+void saveTasks(string* tasknames, bool* iscompleted, int taskCount) {
+
+    ofstream outputFile("task.txt");
+
+    if (!outputFile) {
+        cout << "Error: Could not save tasks to task.txt." << endl;
+        return;
+    }
+
+    for (int i = 0; i < taskCount; i++) {
+
+        outputFile << tasknames[i] << " ";
+
+        if (iscompleted[i]) {
+            outputFile << "complete";
+        }
+        else {
+            outputFile << "incomplete";
+        }
+
+        outputFile << endl;
+    }
+
+    outputFile.close();
+}
+
+
+// Expands the dynamic arrays when they are full
+void expandArray(string*& tasknames, bool*& iscompleted, int& capacity) {
+
+    int newCapacity = capacity * 2;
+
+    string* newTaskNames = new string[newCapacity];
+    bool* newIsCompleted = new bool[newCapacity];
+
+    // Copy existing data
+    for (int i = 0; i < capacity; i++) {
+        newTaskNames[i] = tasknames[i];
+        newIsCompleted[i] = iscompleted[i];
+    }
+
+    // Release old memory
+    delete[] tasknames;
+    delete[] iscompleted;
+
+    // Update pointers
+    tasknames = newTaskNames;
+    iscompleted = newIsCompleted;
+
+    // Update capacity
+    capacity = newCapacity;
+
+    cout << "Array expanded to " << capacity << " tasks." << endl;
+}
+
+
+// Case 1: Add a task
+void addTask(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity) {
+
+    // Expand the array if it is full
+    if (taskCount >= capacity) {
+        expandArray(tasknames, iscompleted, capacity);
+    }
+
+    cout << "Please enter a task with _ as the space: ";
+    cin >> tasknames[taskCount];
+
+    iscompleted[taskCount] = false;
+
+    taskCount++;
+
+    saveTasks(tasknames, iscompleted, taskCount);
+
+    cout << "Task added successfully!" << endl;
+}
+
+
+// Case 2: Complete a task
+void completeTask(string* tasknames, bool* iscompleted, int taskCount) {
+
+    if (taskCount == 0) {
+        cout << "There are no tasks to complete." << endl;
+        return;
+    }
+
+    displayTasks(tasknames, iscompleted, taskCount);
+
+    int taskNumber;
+
+    cout << "Enter the number of the task you want to complete: ";
+    cin >> taskNumber;
+
+    if (taskNumber < 1 || taskNumber > taskCount) {
+        cout << "Invalid task number." << endl;
+        return;
+    }
+
+    iscompleted[taskNumber - 1] = true;
+
+    saveTasks(tasknames, iscompleted, taskCount);
+
+    cout << "Task completed successfully!" << endl;
+}
+
+
+// Case 3: Display all tasks
+void displayTasks(string* tasknames, bool* iscompleted, int taskCount) {
+
+    if (taskCount == 0) {
+        cout << "There are no tasks." << endl;
+        return;
+    }
+
+    cout << endl;
+    cout << "           All Tasks          " << endl;
+
+    for (int i = 0; i < taskCount; i++) {
+
+        cout << i + 1 << ". "
+             << tasknames[i]
+             << " - ";
+
+        if (iscompleted[i]) {
+            cout << "Complete";
+        }
+        else {
+            cout << "Incomplete";
+        }
+
+        cout << endl;
+    }
+
+    cout << endl;
+}
+
+
+// Case 4: Remove a task
+void removeTask(string* tasknames, bool* iscompleted, int& taskCount) {
+
+    if (taskCount == 0) {
+        cout << "There are no tasks to remove." << endl;
+        return;
+    }
+
+    displayTasks(tasknames, iscompleted, taskCount);
+
+    int taskNumber;
+
+    cout << "Enter the number of the task you want to remove: ";
+    cin >> taskNumber;
+
+    if (taskNumber < 1 || taskNumber > taskCount) {
+        cout << "Invalid task number." << endl;
+        return;
+    }
+
+    for (int i = taskNumber - 1; i < taskCount - 1; i++) {
+
+        tasknames[i] = tasknames[i + 1];
+        iscompleted[i] = iscompleted[i + 1];
+    }
+
+    taskCount--;
+
+    saveTasks(tasknames, iscompleted, taskCount);
+
+    cout << "Task removed successfully!" << endl;
+}
+
+
+// Case 5: Modify a task
+void modifyTask(string* tasknames, bool* iscompleted, int taskCount) {
+
+    if (taskCount == 0) {
+        cout << "There are no tasks to modify." << endl;
+        return;
+    }
+
+    displayTasks(tasknames, iscompleted, taskCount);
+
+    int taskNumber;
+
+    cout << "Enter the number of the task you want to modify: ";
+    cin >> taskNumber;
+
+    if (taskNumber < 1 || taskNumber > taskCount) {
+        cout << "Invalid task number." << endl;
+        return;
+    }
+
+    cout << "Enter the new task with _ as the space: ";
+    cin >> tasknames[taskNumber - 1];
+
+    saveTasks(tasknames, iscompleted, taskCount);
+
+    cout << "Task modified successfully!" << endl;
+}
