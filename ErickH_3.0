@@ -1,12 +1,12 @@
-//Updated Menu
-// Fixed taks.txt file as well as made things dynamic 
+//Updated and added an ExpandArray Function 
+// Note: I feel like im missing a menu function
 
 #include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
 
-int capacity = 10;
+int capacity = 20;
 
 // Function prototypes
 void expandArray(string*& tasknames, bool*& iscompleted, int& capacity);
