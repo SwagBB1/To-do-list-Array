@@ -1,6 +1,4 @@
-//Updated and added an ExpandArray Function 
-// Note: I feel like im missing a menu function
-
+```cpp
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,27 +6,35 @@ using namespace std;
 
 int capacity = 20;
 
+// Task struct
+struct Task {
+    string taskName;
+    string priority;
+    string deadline;
+    bool isCompleted;
+};
+
 // Function prototypes
-void expandArray(string*& tasknames, bool*& iscompleted, int& capacity);
-void loadTasks(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity);
-void saveTasks(string* tasknames, bool* iscompleted, int taskCount);
-void addTask(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity);
-void completeTask(string* tasknames, bool* iscompleted, int taskCount);
-void displayTasks(string* tasknames, bool* iscompleted, int taskCount);
-void removeTask(string* tasknames, bool* iscompleted, int& taskCount);
-void modifyTask(string* tasknames, bool* iscompleted, int taskCount);
+void expandArray(Task*& tasks, int& capacity);
+void loadTasks(Task*& tasks, int& taskCount, int& capacity);
+void saveTasks(Task* tasks, int taskCount);
+void addTask(Task*& tasks, int& taskCount, int& capacity);
+void completeTask(Task* tasks, int taskCount);
+void displayTasks(Task* tasks, int taskCount);
+void removeTask(Task* tasks, int& taskCount);
+void modifyTask(Task* tasks, int taskCount);
+
 
 int main() {
 
     int choice;
     int taskCount = 0;
 
-    string* tasknames = new string[capacity];
-
-    bool* iscompleted = new bool[capacity];
+    // Create dynamic array of Task structs
+    Task* tasks = new Task[capacity];
 
     // Load the tasks from the file
-    loadTasks(tasknames, iscompleted, taskCount, capacity);
+    loadTasks(tasks, taskCount, capacity);
 
     while (true) {
 
@@ -48,38 +54,35 @@ int main() {
 
             case 1:
                 cout << "You Picked: Add a New Task" << endl;
-                addTask(tasknames, iscompleted, taskCount, capacity);
+                addTask(tasks, taskCount, capacity);
                 break;
 
             case 2:
                 cout << "You Picked: Complete a Task" << endl;
-                completeTask(tasknames, iscompleted, taskCount);
+                completeTask(tasks, taskCount);
                 break;
 
             case 3:
                 cout << "You Picked: Display All Tasks" << endl;
-                displayTasks(tasknames, iscompleted, taskCount);
+                displayTasks(tasks, taskCount);
                 break;
 
             case 4:
                 cout << "You Picked: Remove a Task" << endl;
-                removeTask(tasknames, iscompleted, taskCount);
+                removeTask(tasks, taskCount);
                 break;
 
             case 5:
                 cout << "You Picked: Modify a Task" << endl;
-                modifyTask(tasknames, iscompleted, taskCount);
+                modifyTask(tasks, taskCount);
                 break;
 
             case 0:
 
-                saveTasks(tasknames, iscompleted, taskCount);
+                saveTasks(tasks, taskCount);
 
-                delete[] tasknames;
-                delete[] iscompleted;
-
-                tasknames = nullptr;
-                iscompleted = nullptr;
+                delete[] tasks;
+                tasks = nullptr;
 
                 cout << "Tasks have been saved. Goodbye!" << endl;
 
@@ -96,7 +99,7 @@ int main() {
 
 
 // Loads the tasks from task.txt
-void loadTasks(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity) {
+void loadTasks(Task*& tasks, int& taskCount, int& capacity) {
 
     ifstream inputFile("task.txt");
 
@@ -105,23 +108,23 @@ void loadTasks(string*& tasknames, bool*& iscompleted, int& taskCount, int& capa
         return;
     }
 
-    string task;
-    string status;
+    string taskName;
+    string priority;
+    string deadline;
 
-    while (inputFile >> task >> status) {
+    while (inputFile >> taskName >> priority >> deadline) {
 
+        // Expand array if it is full
         if (taskCount >= capacity) {
-            expandArray(tasknames, iscompleted, capacity);
+            expandArray(tasks, capacity);
         }
 
-        tasknames[taskCount] = task;
+        tasks[taskCount].taskName = taskName;
+        tasks[taskCount].priority = priority;
+        tasks[taskCount].deadline = deadline;
 
-        if (status == "complete") {
-            iscompleted[taskCount] = true;
-        }
-        else {
-            iscompleted[taskCount] = false;
-        }
+        // All tasks loaded from the file start as incomplete
+        tasks[taskCount].isCompleted = false;
 
         taskCount++;
     }
@@ -133,7 +136,7 @@ void loadTasks(string*& tasknames, bool*& iscompleted, int& taskCount, int& capa
 
 
 // Saves all tasks to task.txt
-void saveTasks(string* tasknames, bool* iscompleted, int taskCount) {
+void saveTasks(Task* tasks, int taskCount) {
 
     ofstream outputFile("task.txt");
 
@@ -144,43 +147,33 @@ void saveTasks(string* tasknames, bool* iscompleted, int taskCount) {
 
     for (int i = 0; i < taskCount; i++) {
 
-        outputFile << tasknames[i] << " ";
-
-        if (iscompleted[i]) {
-            outputFile << "complete";
-        }
-        else {
-            outputFile << "incomplete";
-        }
-
-        outputFile << endl;
+        outputFile << tasks[i].taskName << " "
+                   << tasks[i].priority << " "
+                   << tasks[i].deadline
+                   << endl;
     }
 
     outputFile.close();
 }
 
 
-// Expands the dynamic arrays when they are full
-void expandArray(string*& tasknames, bool*& iscompleted, int& capacity) {
+// Expands the dynamic array when it is full
+void expandArray(Task*& tasks, int& capacity) {
 
     int newCapacity = capacity * 2;
 
-    string* newTaskNames = new string[newCapacity];
-    bool* newIsCompleted = new bool[newCapacity];
+    Task* newTasks = new Task[newCapacity];
 
-    // Copy existing data
+    // Copy existing tasks
     for (int i = 0; i < capacity; i++) {
-        newTaskNames[i] = tasknames[i];
-        newIsCompleted[i] = iscompleted[i];
+        newTasks[i] = tasks[i];
     }
 
     // Release old memory
-    delete[] tasknames;
-    delete[] iscompleted;
+    delete[] tasks;
 
-    // Update pointers
-    tasknames = newTaskNames;
-    iscompleted = newIsCompleted;
+    // Update pointer
+    tasks = newTasks;
 
     // Update capacity
     capacity = newCapacity;
@@ -190,56 +183,64 @@ void expandArray(string*& tasknames, bool*& iscompleted, int& capacity) {
 
 
 // Case 1: Add a task
-void addTask(string*& tasknames, bool*& iscompleted, int& taskCount, int& capacity) {
+void addTask(Task*& tasks, int& taskCount, int& capacity) {
 
     // Expand the array if it is full
     if (taskCount >= capacity) {
-        expandArray(tasknames, iscompleted, capacity);
+        expandArray(tasks, capacity);
     }
 
     cout << "Please enter a task with _ as the space: ";
-    cin >> tasknames[taskCount];
+    cin >> tasks[taskCount].taskName;
 
-    iscompleted[taskCount] = false;
+    cout << "Please enter the priority (low, medium, high): ";
+    cin >> tasks[taskCount].priority;
+
+    cout << "Please enter the deadline (MM/DD/YYYY): ";
+    cin >> tasks[taskCount].deadline;
+
+    // New tasks are incomplete
+    tasks[taskCount].isCompleted = false;
 
     taskCount++;
 
-    saveTasks(tasknames, iscompleted, taskCount);
+    saveTasks(tasks, taskCount);
 
     cout << "Task added successfully!" << endl;
 }
 
 
 // Case 2: Complete a task
-void completeTask(string* tasknames, bool* iscompleted, int taskCount) {
+void completeTask(Task* tasks, int taskCount) {
 
     if (taskCount == 0) {
         cout << "There are no tasks to complete." << endl;
         return;
     }
 
-    displayTasks(tasknames, iscompleted, taskCount);
+    displayTasks(tasks, taskCount);
 
     int taskNumber;
 
     cout << "Enter the number of the task you want to complete: ";
     cin >> taskNumber;
 
+    // Validate task number before accessing array
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
     }
 
-    iscompleted[taskNumber - 1] = true;
+    tasks[taskNumber - 1].isCompleted = true;
 
-    saveTasks(tasknames, iscompleted, taskCount);
+    saveTasks(tasks, taskCount);
 
     cout << "Task completed successfully!" << endl;
 }
 
 
 // Case 3: Display all tasks
-void displayTasks(string* tasknames, bool* iscompleted, int taskCount) {
+void displayTasks(Task* tasks, int taskCount) {
 
     if (taskCount == 0) {
         cout << "There are no tasks." << endl;
@@ -247,15 +248,19 @@ void displayTasks(string* tasknames, bool* iscompleted, int taskCount) {
     }
 
     cout << endl;
-    cout << "           All Tasks          " << endl;
+    cout << "                  All Tasks" << endl;
 
     for (int i = 0; i < taskCount; i++) {
 
         cout << i + 1 << ". "
-             << tasknames[i]
-             << " - ";
+             << tasks[i].taskName
+             << " | Priority: "
+             << tasks[i].priority
+             << " | Deadline: "
+             << tasks[i].deadline
+             << " | Status: ";
 
-        if (iscompleted[i]) {
+        if (tasks[i].isCompleted) {
             cout << "Complete";
         }
         else {
@@ -270,63 +275,73 @@ void displayTasks(string* tasknames, bool* iscompleted, int taskCount) {
 
 
 // Case 4: Remove a task
-void removeTask(string* tasknames, bool* iscompleted, int& taskCount) {
+void removeTask(Task* tasks, int& taskCount) {
 
     if (taskCount == 0) {
         cout << "There are no tasks to remove." << endl;
         return;
     }
 
-    displayTasks(tasknames, iscompleted, taskCount);
+    displayTasks(tasks, taskCount);
 
     int taskNumber;
 
     cout << "Enter the number of the task you want to remove: ";
     cin >> taskNumber;
 
+    // Validate task number before accessing array
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
     }
 
+    // Shift tasks to the left
     for (int i = taskNumber - 1; i < taskCount - 1; i++) {
 
-        tasknames[i] = tasknames[i + 1];
-        iscompleted[i] = iscompleted[i + 1];
+        tasks[i] = tasks[i + 1];
     }
 
     taskCount--;
 
-    saveTasks(tasknames, iscompleted, taskCount);
+    saveTasks(tasks, taskCount);
 
     cout << "Task removed successfully!" << endl;
 }
 
 
 // Case 5: Modify a task
-void modifyTask(string* tasknames, bool* iscompleted, int taskCount) {
+void modifyTask(Task* tasks, int taskCount) {
 
     if (taskCount == 0) {
         cout << "There are no tasks to modify." << endl;
         return;
     }
 
-    displayTasks(tasknames, iscompleted, taskCount);
+    displayTasks(tasks, taskCount);
 
     int taskNumber;
 
     cout << "Enter the number of the task you want to modify: ";
     cin >> taskNumber;
 
+    // Validate task number before accessing array
     if (taskNumber < 1 || taskNumber > taskCount) {
         cout << "Invalid task number." << endl;
         return;
     }
 
     cout << "Enter the new task with _ as the space: ";
-    cin >> tasknames[taskNumber - 1];
+    cin >> tasks[taskNumber - 1].taskName;
 
-    saveTasks(tasknames, iscompleted, taskCount);
+    cout << "Enter the new priority (low, medium, high): ";
+    cin >> tasks[taskNumber - 1].priority;
+
+    cout << "Enter the new deadline (MM/DD/YYYY): ";
+    cin >> tasks[taskNumber - 1].deadline;
+
+    saveTasks(tasks, taskCount);
 
     cout << "Task modified successfully!" << endl;
 }
+```
+
