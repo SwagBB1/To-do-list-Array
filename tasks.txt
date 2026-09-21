@@ -3,6 +3,6 @@ Impletment_a_snake_game low 09/25/27
 Clean_up_my_room high 09/17/26
 Build_my_resume high 09/17/26
 Study_for_the_exam high 09/20/26
-Learn_how_to_juggle low 09/30/2040
-Create_a_website_using_React high 09/25/2026
-Have_a_tea_and_self_reflect low 09/24/2026
+Learn_how_to_juggle low 09/30/40
+Create_a_website_using_React high 09/25/26
+Have_a_tea_and_self_reflect low 09/24/26
