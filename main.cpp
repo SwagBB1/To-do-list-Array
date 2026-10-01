@@ -1,3 +1,5 @@
+// Was easy to set up since i already had them spread out, void functions were already on top of main
+// void prototypes were in the bottom
 #include "todo.h"
 
 using namespace std;
@@ -7,11 +9,7 @@ int main() {
     int choice;
     int taskCount = 0;
     int capacity = INITIAL_CAPACITY;
-
-    // Create dynamic array of Task structs
     Task* tasks = new Task[capacity];
-
-    // Load tasks from file
     loadTasks(tasks, taskCount, capacity);
 
     while (true) {
